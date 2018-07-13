@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring accessors="true" comment="Delete 6 elements from project &apos;Java&apos;&#x0A;- Original project: &apos;Java&apos;&#x0A;- Original elements:&#x0A;     Armstrong3.wav&#x0A;     Armstrong4.wav&#x0A;     doremi.WAV&#x0A;     melody.wav&#x0A;     monWav2.wav&#x0A;     testwave0.wav" description="Delete elements" element1="melody.wav" element2="Armstrong3.wav" element3="Armstrong4.wav" element4="doremi.WAV" element5="testwave0.wav" element6="monWav2.wav" elements="0" flags="589830" id="org.eclipse.jdt.ui.delete" resources="6" stamp="1495115945246" subPackages="false" version="1.0"/>
+</session>
