@@ -31,6 +31,7 @@ class ResultsView(generic.DetailView):
 
 def vote(request, question_id):
     question = get_object_or_404(Question, pk=question_id)
+    adminvoted = request.POST.get('adminvote',False)
     try:
         selected_choice = question.choicesrelated.get(pk=request.POST['choice'])
     except (KeyError, Choice.DoesNotExist):
@@ -39,18 +40,31 @@ def vote(request, question_id):
             'question': question,
             'error_message': "You didn't select a choice.",
         })
+
+
+    
     else:
+        
+        
         if not question.getVoters().filter(id=request.user.id):
             selected_choice.votes += request.user.getScore()
             selected_choice.addVoter(request.user)
             request.user.addChoice(selected_choice)
             selected_choice.save()
         else:
+            if adminvoted:
+                selected_choice.setAsAcurate()
+                selected_choice.save()
+                question.changeScore()
             return render(request, 'polls/detail.html', {
             'question': question,
             'error_message': "You already voted",
              })
-            
+        if adminvoted:
+            selected_choice.setAsAcurate()
+            selected_choice.save()
+            question.changeScore()
+    
         # Always return an HttpResponseRedirect after successfully dealing
         # with POST data. This prevents data from being posted twice if a
         # user hits the Back button.

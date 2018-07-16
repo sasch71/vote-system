@@ -8,5 +8,10 @@
     <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}" />
     <label for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label><br />
 {% endfor %}
+{% if user.is_staff %}
+    <input type="checkbox" id ="adminvote" name="adminvote" value="1" > Make it acurate decision and change scores </input>
+{% endif %}
 <input type="submit" value="Vote" />
+
+
 </form>
