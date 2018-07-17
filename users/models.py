@@ -7,21 +7,21 @@ from jsonfield import JSONField
 class CustomUser(AbstractUser):
     # add additional fields in here
     """groups"""
-    isPartner=models.BooleanField(default=False)
-    isPartner2=models.BooleanField(default=False)
-    isSeniorDirector=models.BooleanField(default=False)
-    isManager=models.BooleanField(default=False)
-    isAdmin=models.BooleanField(default=False)
-    isStaff=models.BooleanField(default=True)
+    isPartner=models.BooleanField(default=False, verbose_name='Partner')
+    isPartner2=models.BooleanField(default=False, verbose_name='Partner 2')
+    isSeniorDirector=models.BooleanField(default=False, verbose_name='Senior Director')
+    isManager=models.BooleanField(default=False, verbose_name='Manager')
+    isAdmin=models.BooleanField(default=False, verbose_name='Admin')
+    isStaff=models.BooleanField(default=True, verbose_name='Staff')
     
     """scores"""
-    score=models.FloatField(default=1000)
-    scoreBus=models.FloatField(default=1000)
-    scoreDev=models.FloatField(default=1000)
-    scoreTech=models.FloatField(default=1000)
-    scoreStrat=models.FloatField(default=1000)
-    scoreManag=models.FloatField(default=1000)
-    scoreOp=models.FloatField(default=1000)
+    score=models.FloatField(default=1000, verbose_name='General')
+    scoreBus=models.FloatField(default=1000, verbose_name='Business')
+    scoreDev=models.FloatField(default=1000, verbose_name='Development')
+    scoreTech=models.FloatField(default=1000, verbose_name='Tech')
+    scoreStrat=models.FloatField(default=1000, verbose_name='Strategy')
+    scoreManag=models.FloatField(default=1000, verbose_name='Management')
+    scoreOp=models.FloatField(default=1000, verbose_name='Operations')
     
     
     choices=models.ManyToManyField(Choice,related_name='votersID')  

@@ -13,19 +13,27 @@ class Question(models.Model):
         ('Strategy', 'Strategy'),
         ('Techno', 'Techno'),
         ('Management', 'Management'))
+    
+    
     question_text = models.CharField(max_length=200)
     pub_date =models.DateTimeField('date published')
     theme= models.CharField(max_length=200, choices = THEMES_POSSIBLES, default='General')
-    ispartner=models.BooleanField(default=True)
-    ispartner2=models.BooleanField(default=True)
-    isseniordirector=models.BooleanField(default=True)
-    ismanager=models.BooleanField(default=True)
-    isadmin=models.BooleanField(default=True)
-    isstaff=models.BooleanField(default=True)
+    
+    """target groups"""
+    ispartner=models.BooleanField(default=True, verbose_name='For Partners')
+    ispartner2=models.BooleanField(default=True, verbose_name='For Partners 2')
+    isseniordirector=models.BooleanField(default=True, verbose_name='For Senior Directors')
+    ismanager=models.BooleanField(default=True, verbose_name='For Managers')
+    isadmin=models.BooleanField(default=True, verbose_name='For Admins')
+    isstaff=models.BooleanField(default=True, verbose_name='For Staff')
+    
+    
     def __str__(self):
         return self.question_text
     def getChoicesString(self):
         return "\n".join([c.__str__() for c in self.choicesrelated.all()])
+    getChoicesString.short_description= 'Choices'
+    
     def getVoters(self):
         A=self.choicesrelated.first().getVoters()
         for c in self.choicesrelated.all() :
@@ -43,7 +51,7 @@ class Choice(models.Model):
     choice_text = models.CharField(max_length=200)
     votes = models.FloatField(default=0)
     voters = models.CharField(max_length=4000, default='', blank=True)
-    isacurate = models.BooleanField(default= False)
+    isacurate = models.BooleanField(default= False, verbose_name='Is the acurate answer')
     def __str__(self):
         return self.choice_text
     
@@ -52,7 +60,7 @@ class Choice(models.Model):
     
     def getVotersString(self):
         return "\n".join([u.__str__() for u in self.votersID.all()])
-    
+    getVotersString.short_description='Who voted'
     def getVoters(self):
         return self.votersID.all()
     
