@@ -17,9 +17,9 @@ class Question(models.Model):
     pub_date =models.DateTimeField('date published')
     theme= models.CharField(max_length=200, choices = THEMES_POSSIBLES, default='General')
     ispartner=models.BooleanField(default=True)
-    ispartener2=models.BooleanField(default=True)
+    ispartner2=models.BooleanField(default=True)
     isseniordirector=models.BooleanField(default=True)
-    ismanagers=models.BooleanField(default=True)
+    ismanager=models.BooleanField(default=True)
     isadmin=models.BooleanField(default=True)
     isstaff=models.BooleanField(default=True)
     def __str__(self):
