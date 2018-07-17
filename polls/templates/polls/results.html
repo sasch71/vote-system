@@ -1,4 +1,12 @@
-<h1>{{ question.question_text }}</h1>
+{% load static %}
+<html>
+<head>
+        <title>Polls</title>
+        <link rel="stylesheet" href="{% static 'css/polls.css' %}">
+    </head>
+<body>
+<div class="container">
+<h2>{{ question.question_text }}</h2>
 
 <ul>
 {% for choice in question.choicesrelated.all %}
@@ -7,3 +15,6 @@
 </ul>
 
 <a href="{% url 'polls:detail' question.id %}">Vote again?</a>
+</body>
+</div>
+</html>

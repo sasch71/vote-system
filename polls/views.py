@@ -53,6 +53,7 @@ class ResultsView(generic.DetailView):
 
 def vote(request, question_id):
     question = get_object_or_404(Question, pk=question_id)
+    theme=question.theme
     adminvoted = request.POST.get('adminvote',False)
     try:
         selected_choice = question.choicesrelated.get(pk=request.POST['choice'])
@@ -74,7 +75,7 @@ def vote(request, question_id):
             return HttpResponseRedirect(reverse('polls:results', args=(question.id,)))
         
         if not question.getVoters().filter(id=request.user.id):
-            selected_choice.votes += request.user.getScore()
+            selected_choice.votes += request.user.getScore(theme)
             selected_choice.addVoter(request.user)
             request.user.addChoice(selected_choice)
             selected_choice.save()

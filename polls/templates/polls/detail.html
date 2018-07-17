@@ -1,17 +1,41 @@
-<h1>{{ question.question_text }}</h1>
+{% load static %}
+<html>
+  <head>
+        <title>Polls</title>
+        <link rel="stylesheet" href="{% static 'css/polls.css' %}">
+  </head>
 
-{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
-
-<form action="{% url 'polls:vote' question.id %}" method="post">
-{% csrf_token %}
-{% for choice in question.choicesrelated.all %}
-    <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}" />
-    <label for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label><br />
-{% endfor %}
-{% if user.is_staff %}
-    <input type="checkbox" id ="adminvote" name="adminvote" value="1" > Make it acurate decision and change scores </input>
-{% endif %}
-<input type="submit" value="Vote" />
+  <body>
 
 
-</form>
+
+
+
+        <div class="container">
+          <h2>{{ question.question_text }}</h2>
+
+
+
+
+        <form action="{% url 'polls:vote' question.id %}" method="post">
+          <ul>
+              {% csrf_token %}
+              {% for choice in question.choicesrelated.all %}
+              <li>
+                  <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}" />
+                  <label for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label>
+                  <div class="check"><div class="inside"></div></div>
+              {% endfor %}
+          </ul>
+              {% if user.is_staff %}
+                  <input type="checkbox" id ="adminvote" name="adminvote" value="1" > <font color="white"> Make it acurate decision and change scores </font> </input>
+              {% endif %}
+              {% if error_message %}<h2><strong>{{ error_message }}</strong></h2>{% endif %}
+              <input type="submit" value="Vote" >
+
+
+        </form>
+        </div>
+  </body>
+
+</html>

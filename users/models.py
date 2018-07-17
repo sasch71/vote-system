@@ -70,7 +70,7 @@ class CustomUser(AbstractUser):
     def addChoice(self, choice):
         self.choices.add(choice)
     
-    def modifyScore(self, theme, newvalue):
+    def modifyScore(self,  newvalue, theme):
         if theme=='General':
             self.modifyScoreGen(newvalue)
         elif theme=='Development':
