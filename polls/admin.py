@@ -9,7 +9,7 @@ from django.contrib.admin.views.decorators import staff_member_required
 
 class QuestionAdmin(admin.ModelAdmin):
     model = Question
-    list_display = ['question_text', 'getChoicesString']
+    list_display = ['question_text', 'getChoicesString', 'theme']
    
 
 

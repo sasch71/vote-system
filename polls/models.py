@@ -1,10 +1,27 @@
 from django.db import models
+from django.contrib.auth.models import Group
+
+
 
 # Create your models here.
 class Question(models.Model):
+    THEMES_POSSIBLES = (
+        ('General', 'General'),
+        ('Business', 'Business'),
+        ('Development', 'Development'),
+        ('Operation', 'Operations'),
+        ('Strategy', 'Strategy'),
+        ('Techno', 'Techno'),
+        ('Management', 'Management'))
     question_text = models.CharField(max_length=200)
     pub_date =models.DateTimeField('date published')
-
+    theme= models.CharField(max_length=200, choices = THEMES_POSSIBLES, default='General')
+    ispartner=models.BooleanField(default=True)
+    ispartener2=models.BooleanField(default=True)
+    isseniordirector=models.BooleanField(default=True)
+    ismanagers=models.BooleanField(default=True)
+    isadmin=models.BooleanField(default=True)
+    isstaff=models.BooleanField(default=True)
     def __str__(self):
         return self.question_text
     def getChoicesString(self):
@@ -42,7 +59,8 @@ class Choice(models.Model):
     def setAsAcurate(self):
         self.isacurate= True
         
-        
+
+       
     
     
 def adjust(score, otherscore, result):
@@ -52,27 +70,27 @@ def adjust(score, otherscore, result):
     return k*(result - 1. / (1 + 10 ** (diff / f_factor)))
     
 def changeScore(question,acuratechoice):
+    theme=question.theme
     ratingW = 0
     ratingL = 0
     winners=acuratechoice.getVoters()
     loosers = question.getVoters().difference(winners)
     for w in winners:
-        ratingW+= w.getScore()
+        ratingW+= w.getScore(theme)
     for l in loosers:
-        ratingL += l.getScore()
+        ratingL += l.getScore(theme)
     
         
         
 
     Win=adjust(ratingW, ratingL,1)
     Loose=adjust(ratingL,ratingW,0)
-    
     for j in winners:
-        j.modifyScore(j.getScore() + Win*ratingW/j.getScore())
+        j.modifyScore(j.getScore(theme) + Win*ratingW/j.getScore(theme), theme)
         j.save()
             
     for i in loosers:
-        i.modifyScore(i.getScore() + Loose*ratingL/i.getScore())
+        i.modifyScore(i.getScore(theme) + Loose*ratingL/i.getScore(theme), theme)
         i.save()
         
     return

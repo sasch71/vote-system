@@ -10,13 +10,35 @@ from django.template import loader
 
 
 
-class IndexView(generic.ListView):
-    template_name = 'polls/index.html'
-    context_object_name = 'latest_question_list'
+#class IndexView(generic.ListView):
+#    template_name = 'polls/index.html'
+#    context_object_name = 'latest_question_list'
+#
+#    def get_queryset(self):
+#        return Question.objects.order_by('-pub_date')[:]
 
-    def get_queryset(self):
-        """Return the last five published questions."""
-        return Question.objects.order_by('-pub_date')[:5]
+
+def index(request):
+    latest_question_list = Question.objects.none()
+    if request.user.isPartner:
+        latest_question_list = latest_question_list.union(Question.objects.filter(ispartner=True))
+    if request.user.isPartner2:
+        latest_question_list = latest_question_list.union(Question.objects.filter(ispartner2=True))
+    if request.user.isSeniorDirector:
+        latest_question_list = latest_question_list.union(Question.objects.filter(isseniordirector=True))
+    if request.user.isManager:
+        latest_question_list = latest_question_list.union(Question.objects.filter(ismanager=True))
+    if request.user.isAdmin:
+        latest_question_list = latest_question_list.union(Question.objects.filter(isadmin=True))
+    if request.user.isStaff:
+        latest_question_list = latest_question_list.union(Question.objects.filter(isstaff=True))
+   
+        
+    template = loader.get_template('polls/index.html')
+    context = {
+        'latest_question_list': latest_question_list.order_by('-pub_date')[:],
+    }
+    return HttpResponse(template.render(context, request))
 
 
 class DetailView(generic.DetailView):
@@ -45,6 +67,11 @@ def vote(request, question_id):
     
     else:
         
+        if adminvoted:
+            selected_choice.setAsAcurate()
+            selected_choice.save()
+            question.changeScore()
+            return HttpResponseRedirect(reverse('polls:results', args=(question.id,)))
         
         if not question.getVoters().filter(id=request.user.id):
             selected_choice.votes += request.user.getScore()
@@ -52,18 +79,11 @@ def vote(request, question_id):
             request.user.addChoice(selected_choice)
             selected_choice.save()
         else:
-            if adminvoted:
-                selected_choice.setAsAcurate()
-                selected_choice.save()
-                question.changeScore()
             return render(request, 'polls/detail.html', {
             'question': question,
             'error_message': "You already voted",
              })
-        if adminvoted:
-            selected_choice.setAsAcurate()
-            selected_choice.save()
-            question.changeScore()
+        
     
         # Always return an HttpResponseRedirect after successfully dealing
         # with POST data. This prevents data from being posted twice if a

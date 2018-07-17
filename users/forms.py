@@ -6,10 +6,11 @@ class CustomUserCreationForm(UserCreationForm):
 
     class Meta(UserCreationForm.Meta):
         model = CustomUser
-        fields = ('username', 'email')
+        fields = ('username', 'email', 'isPartner', 'isPartner2','isSeniorDirector','isManager','isAdmin','isStaff')
 
 class CustomUserChangeForm(UserChangeForm):
 
     class Meta:
         model = CustomUser
-        fields = ('username', 'email', 'score')
+        fields = ('username', 'email', 'isPartner', 'isPartner2','isSeniorDirector','isManager','isAdmin','isStaff','score','scoreBus','scoreStrat','scoreOp','scoreManag','scoreTech','scoreDev')
+
