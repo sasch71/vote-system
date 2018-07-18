@@ -28,7 +28,7 @@
               {% endfor %}
           </ul>
               {% if user.is_staff %}
-                  <input type="checkbox" id ="adminvote" name="adminvote" value="1" > <font color="white"> Make it acurate decision and change scores </font> </input>
+                  <input type="checkbox" id ="adminvote" name="adminvote" value="1" > <font color="black"> Make it acurate decision and change scores </font> </input>
               {% endif %}
               {% if error_message %}<h2><strong>{{ error_message }}</strong></h2>{% endif %}
               <input type="submit" value="Vote" >

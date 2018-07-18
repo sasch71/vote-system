@@ -67,8 +67,10 @@ class CustomUser(AbstractUser):
     def modifyScoreOp(self, newvalue):
         self.scoreOp=newvalue
         return
+    
     def addChoice(self, choice):
         self.choices.add(choice)
+        self.save()
     
     def modifyScore(self,  newvalue, theme):
         if theme=='General':
