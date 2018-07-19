@@ -72,6 +72,13 @@ TEMPLATES = [
         },
     },
 ]
+        
+        
+EMAIL_HOST = 'in-v3.mailjet.com'
+EMAIL_HOST_USER = 'c7ba196d8c4f5dd825d079870f8737e4'
+EMAIL_HOST_PASSWORD = 'd11e066d1129b51c233307f0e6859631'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
 
 WSGI_APPLICATION = 'mysite.wsgi.application'
 

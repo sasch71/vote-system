@@ -5,7 +5,9 @@
         	<link rel="stylesheet" href="{% static 'css/polls.css' %}">
     	</head>
 			<body>
+				<a href="{% url 'logout' %}">logout</a>
 			<div class="container">
+
 					{% if latest_question_list %}
 						<ul>
 								{% for question in latest_question_list %}

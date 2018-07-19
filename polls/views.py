@@ -79,6 +79,7 @@ def vote(request, question_id):
             selected_choice.addVoter(request.user)
             request.user.addChoice(selected_choice)
             selected_choice.save()
+            
         else:
             return render(request, 'polls/detail.html', {
             'question': question,
