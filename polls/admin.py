@@ -23,7 +23,7 @@ def sendmail(modeladmin, request, queryset):
             user_list = user_list.union(CustomUser.objects.filter(isAdmin=True))
         if q.isstaff:
             user_list = user_list.union(CustomUser.objects.filter(isStaff=True))
-        send_mail('New poll', 'There is a new poll you can answer : %s' %(q.question_text,   ), 'piergasnier@gmail.com' , [user_list.values_list('email', flat=True)])
+        send_mail('New poll', 'There is a new poll you can answer : %s' %(q.question_text,   ) , [user_list.values_list('email', flat=True)])
 sendmail.short_description = 'Send mail to concerned users'
 class QuestionAdmin(admin.ModelAdmin):
     model = Question
