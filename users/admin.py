@@ -8,34 +8,13 @@ from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.models import Group
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 
-def reset_score(modeladmin, request, queryset):
-    queryset.update(score=1000)
+#def reset_score(modeladmin, request, queryset):
+#    queryset.update(score=1000)
+#
+#
+#
 
 
-
-
-#
-#
-#
-#class CustomUserCreationForm(UserCreationForm):
-#
-#    class Meta(UserCreationForm.Meta):
-#        model = CustomUser
-#        fields = ['username', 'email', 'isPartner', 'isPartner2','isSeniorDirector','isManager','isAdmin','isStaff']
-#
-#class CustomUserChangeForm(UserChangeForm):
-#
-#    class Meta:
-#        model = CustomUser
-#        fields = ['username', 'email', 'isPartner', 'isPartner2','isSeniorDirector','isManager','isAdmin','isStaff','score','scoreBus','scoreStrat','scoreOp','scoreManag','scoreTech','scoreDev']
-#
-#class CustomUserAdmin(UserAdmin):
-#    add_form = CustomUserCreationForm
-#    form = CustomUserChangeForm
-#    model = CustomUser
-#    list_display = ['email', 'username', 'score', 'scoreBus','scoreDev', 'scoreTech','scoreStrat','scoreManag','scoreOp', 'getChoices']
-#    actions = [reset_score]
-#
 
 class UserCreationForm(forms.ModelForm):
     """A form for creating new users. Includes all the required

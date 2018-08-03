@@ -73,9 +73,9 @@ TEMPLATES = [
     },
 ]
         
-DEFAULT_FROM_EMAIL = ''
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'piergasnier@gmail.com'
+DEFAULT_FROM_EMAIL = 'ms.voting@market-securities.com'
+EMAIL_HOST = 'mail.market-securities.com'
+EMAIL_HOST_USER = 'ms.voting@market-securities.com'
 EMAIL_HOST_PASSWORD = ''
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
