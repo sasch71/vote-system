@@ -37,7 +37,7 @@ class Question(models.Model):
     def getVoters(self):
         A=self.choicesrelated.first().getVoters()
         for c in self.choicesrelated.all() :
-            A.union(c.getVoters(), all = False)
+            A=A.union(c.getVoters(), all = False)
         return A
     
     def getAcurateChoice(self):
@@ -57,7 +57,8 @@ class Choice(models.Model):
     
     def addVoter(self,voter):
         self.voters=self.voters+ voter.__str__() +", "
-    
+        self.save()
+        
     def getVotersString(self):
         return "\n".join([u.__str__() for u in self.votersID.all()])
     getVotersString.short_description='Who voted'
@@ -66,13 +67,14 @@ class Choice(models.Model):
     
     def setAsAcurate(self):
         self.isacurate= True
+        self.save()
         
 
        
     
     
 def adjust(score, otherscore, result):
-    k=100
+    k=50
     diff = otherscore - score
     f_factor = 1000
     return k*(result - 1. / (1 + 10 ** (diff / f_factor)))
@@ -81,27 +83,33 @@ def changeScore(question,acuratechoice):
     theme=question.theme
     ratingW = 0
     ratingL = 0
-    winners=acuratechoice.getVoters()
+    winners = acuratechoice.getVoters()
+    print(winners)
     loosers = question.getVoters().difference(winners)
+    print(loosers)
     for w in winners:
-        ratingW+= w.getScore(theme)
+        ratingW += w.getScore(theme)
     for l in loosers:
         ratingL += l.getScore(theme)
+        
+    print(ratingW)
+    print(ratingL)
     
         
         
 
     Win=adjust(ratingW, ratingL,1)
     Loose=adjust(ratingL,ratingW,0)
+    print(Win)
+    print(Loose)
     for j in winners:
-        j.modifyScore(j.getScore(theme) + Win*ratingW/j.getScore(theme), theme)
+        j.modifyScore(max(j.getScore(theme) + Win*max(ratingW,ratingL)/j.getScore(theme), theme,300))
         j.save()
             
     for i in loosers:
-        i.modifyScore(i.getScore(theme) + Loose*ratingL/i.getScore(theme), theme)
+        i.modifyScore(max(i.getScore(theme) + Loose*ratingL/i.getScore(theme), theme,300))
         i.save()
         
-    return
         
         
     
