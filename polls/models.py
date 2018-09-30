@@ -110,11 +110,11 @@ def changeScore(question,acuratechoice):
     print(Win)
     print(Loose)
     for j in winners:
-        j.modifyScore(max(j.getScore(theme) + Win*max(ratingW,ratingL)/j.getScore(theme), theme,300))
+        j.modifyScore(max(j.getScore(theme) + Win*max(ratingW,ratingL)/j.getScore(theme), 300),theme)
         j.save()
             
     for i in loosers:
-        i.modifyScore(max(i.getScore(theme) + Loose*ratingL/i.getScore(theme), theme,300))
+        i.modifyScore(max(i.getScore(theme) + Loose*ratingL/i.getScore(theme), 300),theme)
         i.save()
         
         
