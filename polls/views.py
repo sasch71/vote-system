@@ -74,7 +74,8 @@ def vote(request, question_id):
             question.changeScore()
             return HttpResponseRedirect(reverse('polls:results', args=(question.id,)))
         
-        if not question.getVoters().filter(id=request.user.id):
+        
+        if not question.hasVoted():
             selected_choice.votes += request.user.getScore(theme)
             selected_choice.addVoter(request.user)
             request.user.addChoice(selected_choice)

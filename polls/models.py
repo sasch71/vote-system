@@ -37,7 +37,14 @@ class Question(models.Model):
     def getVoters(self):
         A=self.choicesrelated.first().getVoters()
         for c in self.choicesrelated.all() :
-            A=A.union(c.getVoters(), all = False)
+            if c.getVoters():
+                A=A.union(c.getVoters(), all = False)
+        return A
+    def hasVoted(self,userid):
+        A=self.choicesrelated.first().getVoters().filter(id=userid)
+        for c in self.choicesrelated.all() :
+            if c.getVoters():
+                A=A.union(c.getVoters().filter(id=userid), all = False)
         return A
     
     def getAcurateChoice(self):
